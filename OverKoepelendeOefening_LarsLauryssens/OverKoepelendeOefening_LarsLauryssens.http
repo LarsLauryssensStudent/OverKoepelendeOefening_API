@@ -1,0 +1,6 @@
+@OverKoepelendeOefening_LarsLauryssens_HostAddress = http://localhost:5175
+
+GET {{OverKoepelendeOefening_LarsLauryssens_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
