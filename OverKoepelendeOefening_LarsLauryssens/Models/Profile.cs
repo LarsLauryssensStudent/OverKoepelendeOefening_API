@@ -23,6 +23,6 @@ namespace OverKoepelendeOefening_LarsLauryssens.Models
         [Required]
         public Guid UserId { get; set; }
         //NavObject
-        public User? user { get; set; };
+        public User? user { get; set; } = null!;
     }
 }

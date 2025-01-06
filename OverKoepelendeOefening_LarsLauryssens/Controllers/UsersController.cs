@@ -95,5 +95,58 @@ namespace OverKoepelendeOefening_LarsLauryssens.Controllers
             }
         }
 
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateuserAndProfile([FromRoute] Guid id, User newUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Gelieve correcte data in te vullen");
+            }
+            if (newUser.Id != id)
+            {
+                return BadRequest("Gelieve een correcte Id in te vullen");
+            }
+            // we gebruiken de entrystate om aan te geven dat er een aanpassing is gebeurt
+            context.Entry(newUser).State = EntityState.Modified;
+            if (newUser.Profile != null)
+            {
+                // Attach the Profile entity and mark it as modified
+                context.Entry(newUser.Profile).State = EntityState.Modified;
+            }
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return NoContent();
+
+
+        }
+
+        [HttpDelete("{id:guid}")] 
+        public async Task<ActionResult> DeleteUser([FromRoute] Guid id)
+        {
+            var userToDel = await context.Users.Include(x => x.Profile).FirstOrDefaultAsync(us => us.Id == id);
+
+            if (userToDel == null)
+            {
+                return NotFound("Geen user met dit id gevonden");
+            }
+
+            try
+            {
+                context.Users.Remove(userToDel);
+                await context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

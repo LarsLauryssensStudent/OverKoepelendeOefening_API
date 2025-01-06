@@ -21,6 +21,6 @@ namespace OverKoepelendeOefening_LarsLauryssens.DTO
         public string Email {  get; set; }
 
         //nav object voor de relatie te kunnen leggen
-        public ProfileUserDTO? profile { get; set; } = null;
+        public ProfileUserDTO profile { get; set; } = null!;
     }
 }
