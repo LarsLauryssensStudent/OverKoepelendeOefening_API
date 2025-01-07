@@ -20,6 +20,9 @@ namespace OverKoepelendeOefening_LarsLauryssens.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
 
+        //ConcurrencyOefening
+        public DbSet<BankAccount> BankAccounts { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options ) : base( options ) 
         {
             
@@ -53,6 +56,12 @@ namespace OverKoepelendeOefening_LarsLauryssens.Data
                 .HasOne(e => e.Course)
                 .WithMany(c => c.Enrollments)
                 .HasForeignKey(e => e.CourseId);
+
+            // Oefening voor concurrency
+            // Optioneel, EF Core begrijpt dit al door [Timestamp]:
+            modelBuilder.Entity<BankAccount>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
 
             base.OnModelCreating(modelBuilder);
         }
